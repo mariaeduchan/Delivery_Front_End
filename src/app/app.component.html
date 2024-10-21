@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documento Básico</title>
+    <title>aplicativo</title>
     <link rel="stylesheet" href="app.component.css">
    
-
-    
-    
-    
 </head>
 <body>
     <div class="container">
@@ -18,33 +14,27 @@
         </header>
     </div>
 
-    
-    <div class="box">
-        <h2 class="order-id">ID - 1212</h2>
-        <div class="item">
-            <p>Cheddar Burguer 2x</p>
-            <p>Pão, 1 carne, 3 fatias de queijo cheddar, tomate, alface e cebola</p>
+   
+    <div class="pedido" *ngFor="let pedido of pedidos">
+        <h3>ID – {{ pedido.id }}</h3>
+        <p>{{ pedido.burguer }} {{ pedido.quantidade }}x</p>
+        
+        <!-- Botão de status com ícone de seta -->
+        <button class="status-btn"
+          [ngStyle]="{'background-color': getStatusColor(pedido.selectedStatus)}"
+          (click)="toggleDropdown(pedido.id)">
+          {{ pedido.selectedStatus || 'STATUS' }} 
+          <span [ngClass]="{'icon-rotated': pedido.dropdownOpen}">▼</span> <!-- Ícone de seta -->
+        </button>
+      
+        <!-- Dropdown com cores nos itens -->
+        <div class="dropdown" [ngClass]="{ 'show': pedido.dropdownOpen }">
+          <p *ngFor="let status of statusOptions" 
+             [ngStyle]="{'background-color': getStatusColor(status)}"
+             (click)="changeStatus(pedido.id, status)">
+            {{ status }}
+          </p>
         </div>
-        <div class="item">
-            <p>Suco 3x</p>
-            <p>Laranja 500ML</p>
-        </div>
-        <div class="dropdown">
-
-            
-            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                STATUS
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" (click)="selectItem('FEITO')">FEITO</a>
-                <a class="dropdown-item" href="#" (click)="selectItem('ENVIADO P/ ENTREGA')">ENVIADO P/ ENTREGA</a>
-                <a class="dropdown-item" href="#" (click)="selectItem('ENTREGUE')">ENTREGUE</a>
-
-                
-            </div>
-        </div>
-
-    </div>
+      </div>
 </body>
 </html>
-
